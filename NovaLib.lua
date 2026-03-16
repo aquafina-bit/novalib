@@ -409,27 +409,35 @@ function Nova:CreateWindow(config)
         ZIndex = 6,
     }, TopBar)
 
-    -- Window controls (close, minimize)
-    local function makeWinBtn(xOff, bgColor, symbol)
+    -- Window controls — minimal, clean icon buttons
+    local function makeWinBtn(xOff, iconText, bgColor)
         local btn = new("TextButton", {
-            Size = UDim2.new(0,26,0,26),
-            Position = UDim2.new(1, xOff, 0.5,-13),
-            BackgroundColor3 = bgColor,
-            BackgroundTransparency = 0.55,
-            Text = symbol,
-            TextColor3 = bgColor,
-            TextSize = 12,
-            Font = Enum.Font.GothamBold,
-            ZIndex = 7,
+            Size                   = UDim2.new(0, 24, 0, 24),
+            Position               = UDim2.new(1, xOff, 0.5, -12),
+            BackgroundColor3       = bgColor,
+            BackgroundTransparency = 0.6,
+            Text                   = iconText,
+            TextColor3             = bgColor,
+            TextTransparency       = 0,
+            TextSize               = 11,
+            Font                   = Enum.Font.GothamBold,
+            ZIndex                 = 7,
+            BorderSizePixel        = 0,
         }, TopBar)
-        corner(btn, 7)
-        btn.MouseEnter:Connect(function()  tween(btn, {BackgroundTransparency=0.1}, 0.15) end)
-        btn.MouseLeave:Connect(function()  tween(btn, {BackgroundTransparency=0.55}, 0.15) end)
+        corner(btn, 6)
+
+        btn.MouseEnter:Connect(function()
+            tween(btn, {BackgroundTransparency = 0.1}, 0.12)
+        end)
+        btn.MouseLeave:Connect(function()
+            tween(btn, {BackgroundTransparency = 0.6}, 0.12)
+        end)
+
         return btn
     end
 
-    local CloseBtn = makeWinBtn(-14, theme.Danger, "✕")
-    local MinBtn   = makeWinBtn(-46, theme.Warning, "−")
+    local CloseBtn = makeWinBtn(-14, "✕", Color3.fromRGB(248, 113, 113))
+    local MinBtn   = makeWinBtn(-44, "−", Color3.fromRGB(251, 191, 36))
 
     CloseBtn.MouseButton1Click:Connect(function()
         tween(Root, {Size=UDim2.new(0,size.X.Offset,0,0), Position=UDim2.new(Root.Position.X.Scale, Root.Position.X.Offset, Root.Position.Y.Scale, Root.Position.Y.Offset + size.Y.Offset/2)}, 0.3, Enum.EasingStyle.Back, Enum.EasingDirection.In)
